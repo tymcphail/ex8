@@ -1,0 +1,57 @@
+Exercise 8
+
+Ty Mcphail
+
+4/5/24, 8:37 PM 
+
+List the resident id, first name, and last name, and property id of every property with a service request, and total the number of service requests for each property in a column called “service_req_total” and display the results by descending order, but do this only for properties with less than 3 bedrooms and owner lives in kentucky.
+
+SELECT
+
+  R.RESIDENT_ID,
+
+  R.FIRST_NAME,
+
+  R.SURNAME,
+
+  P.PROPERTY_ID,
+
+O.STATE,
+
+  COUNT(S.SERVICE_ID) AS SERVICE_REQ_TOTAL
+
+FROM
+
+  PROPERTY P 
+
+JOIN
+
+  SERVICE_REQUEST S ON P.PROPERTY_ID = S.PROPERTY_ID
+
+JOIN
+
+  RESIDENTS R ON P.PROPERTY_ID = R.PROPERTY_ID
+
+ 
+
+JOIN
+
+OWNER O ON P.OWNER_NUM = O.OWNER_NUM
+
+WHERE
+
+  P.BDRMS < 3
+
+  AND O.STATE LIKE '%Kentucky%'
+
+GROUP BY
+
+  R.RESIDENT_ID, R.FIRST_NAME, R.SURNAME, P.PROPERTY_ID
+
+HAVING
+
+  COUNT(S.SERVICE_ID) > 0
+
+ORDER BY
+
+  SERVICE_REQ_TOTAL DESC;
